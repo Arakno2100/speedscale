@@ -1,9 +1,9 @@
 package model.bean;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.*;
 
 @Entity
 public class Utente implements Serializable {
@@ -16,24 +16,30 @@ public class Utente implements Serializable {
     private String password;
     private String nome;
     private String cognome;
+
+    @Temporal(TemporalType.DATE)
     private Date dataNascita;
 
     @ElementCollection
+    @CollectionTable(name = "utente_ruoli", joinColumns = @JoinColumn(name = "utente_id"))
+    @Column(name = "ruolo")
     @Enumerated(EnumType.STRING)
     private List<Ruolo> ruoli;
 
     @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
     private Carrello carrello;
 
-    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Indirizzo> indirizzi;
 
-    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "utente", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<MetodoPagamento> metodiPagamento;
 
-    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "utente", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Ordine> ordini;
 
+    public Utente() {}
+    
     public Utente(String email, String password, String nome, String cognome, Date dataNascita, List<Ruolo> ruoli) {
         this.email = email;
         this.password = password;
@@ -43,26 +49,9 @@ public class Utente implements Serializable {
         this.ruoli = ruoli;
     }
 
-    public Utente(String email, String password, String nome, String cognome, Date dataNascita, List<Ruolo> ruoli, Carrello carrello, List<Indirizzo> indirizzi, List<MetodoPagamento> metodiPagamento, List<Ordine> ordini) {
-        this.email = email;
-        this.password = password;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.dataNascita = dataNascita;
-        this.ruoli = ruoli;
-        this.carrello = carrello;
-        this.indirizzi = indirizzi;
-        this.metodiPagamento = metodiPagamento;
-        this.ordini = ordini;
-    }
-
-    public Utente() {
-    }
-
     public Long getId() {
         return id;
     }
-
 
     public String getEmail() {
         return email;
@@ -146,6 +135,13 @@ public class Utente implements Serializable {
 
     @Override
     public String toString() {
-        return "Utente{" + "id=" + id + ", email=" + email + ", password=" + password + ", nome=" + nome + ", cognome=" + cognome + ", dataNascita=" + dataNascita + ", ruoli=" + ruoli + ", carrello=" + carrello + ", indirizzi=" + indirizzi + ", metodiPagamento=" + metodiPagamento + ", ordini=" + ordini + '}';
+        return "Utente{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", dataNascita=" + dataNascita +
+                ", ruoli=" + ruoli +
+                '}';
     }
 }

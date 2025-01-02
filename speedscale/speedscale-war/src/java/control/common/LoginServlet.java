@@ -41,8 +41,6 @@ public class LoginServlet extends HttpServlet {
         
         email = email.trim();
         password = encryptPassword(password);
-        
-        System.out.println("Credenziali ok");
 
         // Autenticazione dell'utente
         Utente utente = registroUtenti.authenticate(email, password);

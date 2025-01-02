@@ -6,7 +6,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 
+@Stateless
 public class UtenteDAO {
 
     @PersistenceContext(unitName = "SpeedScalePU")
@@ -23,6 +26,18 @@ public class UtenteDAO {
 
     public Utente findById(Long id) {
         return entityManager.find(Utente.class, id);
+    }
+    
+    public Utente findByEmail(String email) {
+        try
+        {
+            return entityManager.createQuery("SELECT u FROM Utente u WHERE u.email = :email", Utente.class)
+                            .setParameter("email", email)
+                            .getSingleResult();
+        }
+        catch(NoResultException e) {
+            return null;
+        }
     }
 
     public List<Utente> findAll() {
