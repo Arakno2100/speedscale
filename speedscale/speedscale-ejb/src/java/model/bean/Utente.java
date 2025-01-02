@@ -9,7 +9,7 @@ import java.util.List;
 public class Utente implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String email;
@@ -33,6 +33,15 @@ public class Utente implements Serializable {
 
     @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
     private List<Ordine> ordini;
+
+    public Utente(String email, String password, String nome, String cognome, Date dataNascita, List<Ruolo> ruoli) {
+        this.email = email;
+        this.password = password;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.dataNascita = dataNascita;
+        this.ruoli = ruoli;
+    }
 
     public Utente(String email, String password, String nome, String cognome, Date dataNascita, List<Ruolo> ruoli, Carrello carrello, List<Indirizzo> indirizzi, List<MetodoPagamento> metodiPagamento, List<Ordine> ordini) {
         this.email = email;
