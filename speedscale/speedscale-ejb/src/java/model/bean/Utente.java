@@ -3,6 +3,7 @@ package model.bean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
@@ -107,6 +108,9 @@ public class Utente implements Serializable {
 
     public void setCarrello(Carrello carrello) {
         this.carrello = carrello;
+        
+        if (!carrello.getUtente().equals(this))
+            carrello.setUtente(this);
     }
 
     public List<Indirizzo> getIndirizzi() {
@@ -131,6 +135,51 @@ public class Utente implements Serializable {
 
     public void setOrdini(List<Ordine> ordini) {
         this.ordini = ordini;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Utente other = (Utente) obj;
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.cognome, other.cognome)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataNascita, other.dataNascita)) {
+            return false;
+        }
+        if (!Objects.equals(this.ruoli, other.ruoli)) {
+            return false;
+        }
+        if (!Objects.equals(this.carrello, other.carrello)) {
+            return false;
+        }
+        if (!Objects.equals(this.indirizzi, other.indirizzi)) {
+            return false;
+        }
+        if (!Objects.equals(this.metodiPagamento, other.metodiPagamento)) {
+            return false;
+        }
+        return Objects.equals(this.ordini, other.ordini);
     }
 
     @Override

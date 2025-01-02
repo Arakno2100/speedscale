@@ -105,7 +105,7 @@ public class LoginServlet extends HttpServlet {
         List<Ruolo> ruoli = utente.getRuoli();
         
         if (ruoli.contains(Ruolo.CLIENTE))
-            response.sendRedirect(request.getContextPath() + "/common/LoadOrCreateCartServlet");
+            response.sendRedirect(request.getContextPath() + "/common/homepage.jsp");
         else if (ruoli.contains(Ruolo.AMMINISTRATORE))
             response.sendRedirect(request.getContextPath() + "/admin/homepage.jsp");
     }

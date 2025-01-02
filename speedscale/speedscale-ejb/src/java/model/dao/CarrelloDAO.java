@@ -6,7 +6,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import model.bean.Utente;
 
+@Stateless
 public class CarrelloDAO {
 
     @PersistenceContext(unitName = "SpeedScalePU")
@@ -23,6 +27,19 @@ public class CarrelloDAO {
 
     public Carrello findById(Long id) {
         return entityManager.find(Carrello.class, id);
+    }
+    
+    public Carrello findByUtente(Utente utente) {
+        try
+        {
+            return entityManager.createQuery("SELECT c FROM Carrello c WHERE c.utente = :utente", Carrello.class)
+                            .setParameter("utente", utente)
+                            .getSingleResult();
+        }
+        catch(NoResultException e) {
+            return null;
+        }
+          
     }
 
     public List<Carrello> findAll() {

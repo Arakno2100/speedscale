@@ -3,6 +3,9 @@ package service;
 import java.nio.charset.StandardCharsets;
 import model.bean.Utente;
 import model.dao.UtenteDAO;
+import model.bean.Carrello;
+import model.dao.CarrelloDAO;
+import model.bean.Ruolo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,6 +24,9 @@ public class RegistroUtenti {
     
     @EJB
     private UtenteDAO utenteDAO;
+    
+    @EJB
+    private CarrelloDAO carrelloDAO;
 
     public RegistroUtenti() {}
 
@@ -100,6 +106,20 @@ public class RegistroUtenti {
     public void inizializzaSessione(Utente utente, HttpSession session) {
         if (utente != null) {
             session.setAttribute("utente", utente);  // Memorizza l'utente nella sessione
+        }
+        
+        if (utente.getRuoli().contains(Ruolo.CLIENTE)) {
+            // Controlla se l'utente ha già un carrello nel database
+            Carrello carrello = carrelloDAO.findByUtente(utente);
+
+            if (carrello == null) {
+                // Se non esiste, crea un nuovo carrello
+                carrello = new Carrello(utente, null);
+                utente.setCarrello(carrello);
+                carrello.setUtente(utente);
+            }
+            
+            System.out.println("Carrello query:\t" + carrello.toString());
         }
     }
     

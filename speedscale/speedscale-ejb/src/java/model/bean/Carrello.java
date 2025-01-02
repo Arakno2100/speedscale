@@ -2,6 +2,7 @@ package model.bean;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Carrello {
@@ -35,6 +36,9 @@ public class Carrello {
 
     public void setUtente(Utente utente) {
         this.utente = utente;
+        
+        if(!utente.getCarrello().equals(this))
+            utente.setCarrello(this);
     }
 
     public List<CarrelloProdotto> getProdotti() {
@@ -44,6 +48,29 @@ public class Carrello {
     public void setProdotti(List<CarrelloProdotto> prodotti) {
         this.prodotti = prodotti;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Carrello other = (Carrello) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.utente, other.utente)) {
+            return false;
+        }
+        return Objects.equals(this.prodotti, other.prodotti);
+    }
+    
+    
 
     @Override
     public String toString() {
