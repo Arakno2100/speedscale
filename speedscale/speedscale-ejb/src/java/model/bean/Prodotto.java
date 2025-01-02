@@ -1,12 +1,14 @@
 package model.bean;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Prodotto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String nome;
@@ -20,7 +22,10 @@ public class Prodotto {
     @Enumerated(EnumType.STRING)
     private Marca marca;
 
-    // Getters and setters
+    @ElementCollection
+    @CollectionTable(name = "prodotto_urls", joinColumns = @JoinColumn(name = "prodotto_id"))
+    @Column(name = "url")
+    private List<String> urls;  // Lista di URL
 
     public Prodotto() {
     }
@@ -32,7 +37,9 @@ public class Prodotto {
         this.quantitàDisponibile = quantitàDisponibile;
         this.scala = scala;
         this.marca = marca;
+        this.urls = new ArrayList<>(); // Lista vuota di default
     }
+
 
     public Long getId() {
         return id;
@@ -86,8 +93,24 @@ public class Prodotto {
         this.marca = marca;
     }
 
+    public List<String> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
+
     @Override
     public String toString() {
-        return "Prodotto{" + "id=" + id + ", nome=" + nome + ", descrizione=" + descrizione + ", prezzo=" + prezzo + ", quantit\u00e0Disponibile=" + quantitàDisponibile + ", scala=" + scala + ", marca=" + marca + '}';
+        return "Prodotto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descrizione='" + descrizione + '\'' +
+                ", prezzo=" + prezzo +
+                ", quantitàDisponibile=" + quantitàDisponibile +
+                ", scala=" + scala +
+                ", marca=" + marca +
+                ", urls=" + urls + '}';
     }
 }
