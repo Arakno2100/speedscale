@@ -1,5 +1,12 @@
 package service;
 
+import model.bean.Indirizzo;
+import model.bean.MetodoPagamento;
+import model.bean.Ordine;
+import model.bean.Utente;
+import model.dao.IndirizzoDAO;
+import model.dao.UtenteDAO;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
@@ -7,12 +14,6 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import model.bean.Indirizzo;
-import model.bean.MetodoPagamento;
-import model.bean.Ordine;
-import model.bean.Utente;
-import model.dao.IndirizzoDAO;
-import model.dao.UtenteDAO;
 
 @Singleton
 public class GestioneProfilo {
@@ -25,6 +26,8 @@ public class GestioneProfilo {
     
     @EJB
     private IndirizzoDAO indirizzoDAO;
+    
+    public GestioneProfilo() {}
 
     // Modifica i dati personali dell'utente
     public void modificaDatiPersonali(Utente utente, String newNome, String newCognome, String newPassword, Date newDataNascita) {
@@ -42,44 +45,60 @@ public class GestioneProfilo {
         
         System.out.println("Utente (nuovi dati):\t" + utente);
     }
-
+    
     // Aggiungi un nuovo indirizzo di spedizione
     public void addIndirizzoSpedizione(Utente utente, Indirizzo newIndirizzo) {
         if (utente == null || newIndirizzo == null) {
             throw new IllegalArgumentException("Utente o indirizzo non valido");
         }
-        
+
+        // Associa l'indirizzo all'utente
+        newIndirizzo.setUtente(utente);
+
+        // Salva l'indirizzo nel database (la prima volta)
         indirizzoDAO.save(newIndirizzo);
-        
-        // Aggiungi l'indirizzo all'elenco degli indirizzi di spedizione
+
+        // Aggiungi l'indirizzo all'elenco degli indirizzi di spedizione dell'utente
         List<Indirizzo> indirizzi = utente.getIndirizzi();
         indirizzi.add(newIndirizzo);
-        
+
+        // Associa la lista aggiornata all'utente e salva l'utente nel database
+        utente.setIndirizzi(indirizzi);
         utenteDAO.save(utente);
-        indirizzoDAO.save(newIndirizzo);
-        
-        System.out.println("Utente (aggiunto indirizzo):\t" + utente.toString());
+
+        System.out.println("Utente (aggiunto indirizzo):\t" + newIndirizzo);
     }
 
-    // Modifica un indirizzo di spedizione esistente
+    // Modificare un indirizzo
     public void modificaIndirizzoSpedizione(Utente utente, Indirizzo indirizzo, Indirizzo newIndirizzo) {
         if (utente == null || indirizzo == null || newIndirizzo == null) {
             throw new IllegalArgumentException("Utente o indirizzo non valido");
         }
-        
-        // Trova l'indirizzo da modificare
-        List<Indirizzo> indirizzi = utente.getIndirizzi();
-        if (!indirizzi.contains(indirizzo)) {
-            throw new IllegalArgumentException("Indirizzo non trovato");
-        }
-        
-        // Sostituisci l'indirizzo
-        int index = indirizzi.indexOf(indirizzo);
-        indirizzi.set(index, newIndirizzo);
-        
-        utenteDAO.save(utente);
-        System.out.println("Utente (modificato indirizzo):\t" + utente.toString());
+
+        // Modifica delle proprietà dell'indirizzo esistente con quelle del nuovo indirizzo
+        indirizzo.setVia(newIndirizzo.getVia());
+        indirizzo.setCitta(newIndirizzo.getCitta());
+        indirizzo.setProvincia(newIndirizzo.getProvincia());
+        indirizzo.setCap(newIndirizzo.getCap());
+        indirizzo.setNazione(newIndirizzo.getNazione());
+
+        // Salva le modifiche
+        indirizzoDAO.save(indirizzo);  // Salva l'indirizzo aggiornato
+
+        // Forza il refresh dell'indirizzo, se necessario
+        indirizzoDAO.refresh(indirizzo);
+
+        // Ricarica l'utente e gli indirizzi aggiornati
+        Utente utenteRicaricato = utenteDAO.findById(utente.getId());  // Ricarica l'utente dal database
+        List<Indirizzo> indirizziAggiornati = utenteRicaricato.getIndirizzi();  // Ottieni la lista aggiornata di indirizzi
+        utente.setIndirizzi(indirizziAggiornati);  // Imposta gli indirizzi aggiornati nell'utente
+
+        utenteDAO.save(utente);  // Salva l'utente con gli indirizzi aggiornati
+
+        System.out.println("Indirizzo modificato: " + indirizzo);
     }
+
+
 
     // Rimuovi un indirizzo di spedizione
     public void removeIndirizzoSpedizione(Utente utente, Indirizzo indirizzo) {

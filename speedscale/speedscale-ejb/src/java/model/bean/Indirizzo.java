@@ -2,6 +2,7 @@ package model.bean;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Indirizzo implements Serializable {

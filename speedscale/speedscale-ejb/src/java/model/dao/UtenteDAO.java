@@ -19,6 +19,7 @@ public class UtenteDAO {
     public void save(Utente utente) {
         if (utente.getId() == null) {
             entityManager.persist(utente);
+            entityManager.flush();
         } else {
             entityManager.merge(utente);
         }

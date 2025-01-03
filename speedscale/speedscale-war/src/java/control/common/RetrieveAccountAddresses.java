@@ -33,6 +33,8 @@ public class RetrieveAccountAddresses extends HttpServlet {
         //Ottenere l'elenco degli indirizzi
         List<Indirizzo> indirizzi = utente.getIndirizzi();
         
+        System.out.println("Indirizzi:\t" + indirizzi);
+        
         // Imposta gli indirizzi nella sessione dell'utente
         request.getSession().setAttribute("addresses", indirizzi);
         
