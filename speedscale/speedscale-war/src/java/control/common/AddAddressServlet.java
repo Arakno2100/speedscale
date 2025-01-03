@@ -1,40 +1,35 @@
 package control.common;
 
+import java.io.IOException;
 import model.bean.Indirizzo;
 import model.bean.Utente;
-import model.dao.IndirizzoDAO;
-import model.dao.UtenteDAO;
+import service.GestioneProfilo;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import javax.ejb.EJB;
 
 @WebServlet("/common/AddAddressServlet")
 public class AddAddressServlet extends HttpServlet {
     
     @EJB
-    private IndirizzoDAO indirizzoDAO;
-    
-    @EJB
-    private UtenteDAO utenteDAO;
+    private GestioneProfilo gestioneProfilo;
 
     @Override
     public void init() throws ServletException {}
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
         Utente utente = (Utente) request.getSession().getAttribute("utente");
         
         Indirizzo newIndirizzo = extractAddressFromRequest(request);
         
-        saveAddressAndUserLink(newIndirizzo, utente);
-
+        gestioneProfilo.addIndirizzoSpedizione(utente, newIndirizzo);
+        
         response.sendRedirect(request.getContextPath() + "/common/RetrieveAccountAddresses");       
     }
 
@@ -45,28 +40,8 @@ public class AddAddressServlet extends HttpServlet {
         String cap = request.getParameter("cap");
         String nazione = request.getParameter("nazione");
 
-        Indirizzo indirizzo = new Indirizzo();
+        Indirizzo indirizzo = new Indirizzo(via, citta, provincia, cap, nazione);
         
-        indirizzo.setVia(via);
-        indirizzo.setCitta(citta);
-        indirizzo.setProvincia(provincia);
-        indirizzo.setCap(cap);
-        indirizzo.setNazione(nazione);
-
         return indirizzo;
-    }
-
-    private void saveAddressAndUserLink(Indirizzo indirizzo, Utente utente) {
-        
-        indirizzoDAO.save(indirizzo);
-        
-        List<Indirizzo> indirizzi = utente.getIndirizzi();
-        
-        indirizzi.add(indirizzo);
-        
-        utente.setIndirizzi(indirizzi);
-        
-        indirizzoDAO.save(indirizzo);
-        utenteDAO.save(utente);
     }
 }

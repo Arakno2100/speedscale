@@ -20,8 +20,15 @@ public class Indirizzo implements Serializable {
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
-    public Indirizzo() {
-    }
+    public Indirizzo() {}
+
+    public Indirizzo(String via, String citta, String provincia, String cap, String nazione) {
+        this.via = via;
+        this.citta = citta;
+        this.provincia = provincia;
+        this.cap = cap;
+        this.nazione = nazione;
+    }    
 
     public Indirizzo(String via, String citta, String cap, String nazione, Utente utente) {
         this.via = via;
