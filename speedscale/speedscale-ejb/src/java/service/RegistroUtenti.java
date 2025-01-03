@@ -1,6 +1,7 @@
 package service;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import model.bean.Utente;
 import model.dao.UtenteDAO;
 import model.bean.Carrello;
@@ -80,6 +81,11 @@ public class RegistroUtenti {
         nuovoUtente.setNome(nome);
         nuovoUtente.setCognome(cognome);
         nuovoUtente.setDataNascita(dataNascita);
+        
+        List<Ruolo> ruoli = new ArrayList<>();
+        ruoli.add(Ruolo.CLIENTE);
+        
+        nuovoUtente.setRuoli(ruoli);
 
         utenteDAO.save(nuovoUtente);
 
