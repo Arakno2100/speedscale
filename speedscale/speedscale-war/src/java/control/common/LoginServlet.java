@@ -50,6 +50,8 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             registroUtenti.inizializzaSessione(utente, session);
 
+            System.out.println("Utente autenticato:\t" + utente);
+            
             // Redirect alla home o a una pagina protetta
             redirectUser(request, response, utente);
         } else {
