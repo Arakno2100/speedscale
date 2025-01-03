@@ -98,25 +98,40 @@ public class GestioneProfilo {
         System.out.println("Indirizzo modificato: " + indirizzo);
     }
 
-
-
     // Rimuovi un indirizzo di spedizione
     public void removeIndirizzoSpedizione(Utente utente, Indirizzo indirizzo) {
         if (utente == null || indirizzo == null) {
             throw new IllegalArgumentException("Utente o indirizzo non valido");
         }
+
+        // Ricarica l'utente dal database per avere l'elenco più aggiornato degli indirizzi
+        Utente utenteAggiornato = utenteDAO.findById(utente.getId());
+        List<Indirizzo> indirizzi = utenteAggiornato.getIndirizzi();
+
+        int index = 0;
         
-        // Rimuovi l'indirizzo
-        List<Indirizzo> indirizzi = utente.getIndirizzi();
-        if (!indirizzi.contains(indirizzo)) {
-            throw new IllegalArgumentException("Indirizzo non trovato");
+        for (Indirizzo ind : indirizzi) {
+            if (ind.getId() == indirizzo.getId())
+                index = indirizzi.indexOf(ind);
         }
+
+        // Rimuovi l'indirizzo dalla lista
+        indirizzi.remove(index);
+
+        // Aggiorna l'utente e l'indirizzo nel database
+        indirizzoDAO.delete(indirizzo);
+        utenteDAO.save(utenteAggiornato);
         
-        indirizzi.remove(indirizzo);
-        
-        utenteDAO.save(utente);
-        System.out.println("Utente (rimosso indirizzo):\t" + utente.toString());
+        // Ricarica l'utente e gli indirizzi aggiornati
+        Utente utenteRicaricato = utenteDAO.findById(utente.getId());  // Ricarica l'utente dal database
+        List<Indirizzo> indirizziAggiornati = utenteRicaricato.getIndirizzi();  // Ottieni la lista aggiornata di indirizzi
+        utente.setIndirizzi(indirizziAggiornati);  // Imposta gli indirizzi aggiornati nell'utente
+
+        utenteDAO.save(utente);  // Salva l'utente con gli indirizzi aggiornati
+
+        System.out.println("Utente (rimosso indirizzo):\t" + utenteAggiornato.toString());
     }
+
 
     // Aggiungi un nuovo metodo di pagamento
     public void aggiungiMetodoPagamento(Utente utente, MetodoPagamento newMetodoPagamento) {
