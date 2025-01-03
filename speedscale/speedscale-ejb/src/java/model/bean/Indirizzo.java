@@ -1,16 +1,18 @@
 package model.bean;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-public class Indirizzo {
+public class Indirizzo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String via;
-    private String città;
+    private String citta;
+    private String provincia;
     private String cap;
     private String nazione;
 
@@ -21,9 +23,9 @@ public class Indirizzo {
     public Indirizzo() {
     }
 
-    public Indirizzo(String via, String città, String cap, String nazione, Utente utente) {
+    public Indirizzo(String via, String citta, String cap, String nazione, Utente utente) {
         this.via = via;
-        this.città = città;
+        this.citta = citta;
         this.cap = cap;
         this.nazione = nazione;
         this.utente = utente;
@@ -41,12 +43,20 @@ public class Indirizzo {
         this.via = via;
     }
 
-    public String getCittà() {
-        return città;
+    public String getCitta() {
+        return citta;
     }
 
-    public void setCittà(String città) {
-        this.città = città;
+    public void setCitta(String citta) {
+        this.citta = citta;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
     }
 
     public String getCap() {
@@ -75,6 +85,6 @@ public class Indirizzo {
 
     @Override
     public String toString() {
-        return "Indirizzo{" + "id=" + id + ", via=" + via + ", citt\u00e0=" + città + ", cap=" + cap + ", nazione=" + nazione + ", utente=" + utente + '}';
+        return "Indirizzo{" + "id=" + id + ", via=" + via + ", citt\u00e0=" + citta + ", cap=" + cap + ", nazione=" + nazione + ", utente=" + utente + '}';
     }    
 }
