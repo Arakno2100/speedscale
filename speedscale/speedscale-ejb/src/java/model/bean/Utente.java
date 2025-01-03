@@ -17,6 +17,7 @@ public class Utente implements Serializable {
     private String password;
     private String nome;
     private String cognome;
+    private String telefono;
 
     @Temporal(TemporalType.DATE)
     private Date dataNascita;
@@ -84,6 +85,14 @@ public class Utente implements Serializable {
 
     public void setCognome(String cognome) {
         this.cognome = cognome;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public Date getDataNascita() {

@@ -30,7 +30,7 @@ public class GestioneProfilo {
     public GestioneProfilo() {}
 
     // Modifica i dati personali dell'utente
-    public void modificaDatiPersonali(Utente utente, String newNome, String newCognome, String newPassword, Date newDataNascita) {
+    public void modificaDatiPersonali(Utente utente, String newNome, String newCognome, Date newDataNascita, String newTelefono) {
         if (utente == null) {
             throw new IllegalArgumentException("Utente non valido");
         }
@@ -38,8 +38,8 @@ public class GestioneProfilo {
         // Aggiorna i dati dell'utente
         utente.setNome(newNome);
         utente.setCognome(newCognome);
-        utente.setPassword(encryptPassword(newPassword));
         utente.setDataNascita(newDataNascita);
+        utente.setTelefono(newTelefono);
         
         utenteDAO.save(utente);
         
