@@ -8,7 +8,10 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import model.bean.Marca;
+import model.bean.Prodotto;
 import model.bean.Ruolo;
+import model.bean.Scala;
 import model.bean.Utente;
 
 @Singleton
@@ -21,6 +24,12 @@ public class DatabasePopulator {
     @PostConstruct
     private void populateDB() {
         
+        createUtenti();
+        createProdotti();
+    }
+    
+    private void createUtenti() {
+        
         List<Ruolo> adminRuoli = new ArrayList<>();
         adminRuoli.add(Ruolo.AMMINISTRATORE);
         Utente admin = new Utente("admin@email.it", "ee33429c9cf42536c60b539488a1e4bdd5b162a69f57cf11cd38b2b9e1e069d5392f9d5329145179889a98483d379f0f6c03708538376e2f54f48afd22973c8c", "Mario", "Rossi", new Date(), adminRuoli);        
@@ -31,6 +40,34 @@ public class DatabasePopulator {
         
         entityManager.persist(admin);
         entityManager.persist(cliente);
+    }
+    
+    private void createProdotti() {
+        
+        Prodotto p1 = new Prodotto("Charles Leclerc Ferrari SF-24 Imola 2024",
+                "Il modellino Burago, Bburago della nuova e bellissima Ferrari SF-24 la monoposto con cui Charles Leclerc disputa il mondiale F1 2024!",
+                14.99,
+                100,
+                Scala.SCA_1_43,
+                Marca.BBURAGO);
+        
+        Prodotto p2 = new Prodotto("Ferrari 499P #51 Vincitrice 24 ore Le Mans 2023 Hypercar",
+                "L’attesissimo modellino della stupenda Ferrari 499P numero 51, il prototipo hypercar che riporta, dopo 58 anni, la scuderia di Maranello alla vittoria nella leggendaria 24 ore di Le Mans con Alessandro Pier Guidi, Antonio Giovinazzi e James Calado!",
+                25.50,
+                100,
+                Scala.SCA_1_43,
+                Marca.BBURAGO);
+        
+        Prodotto p3 = new Prodotto("Francesco Bagnaia Ducati GP22 Campione MotoGP 2022",
+                "L’attesissimo modellino della Ducati MotoGP Campione del mondo 2022 con il nostro Pecco Bagnaia!",
+                14.90,
+                100,
+                Scala.SCA_1_18,
+        Marca.LOOKSMART);
+        
+        entityManager.persist(p1);
+        entityManager.persist(p1);
+        entityManager.persist(p1);
     }
 
 }
