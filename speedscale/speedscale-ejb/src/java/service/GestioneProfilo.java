@@ -6,6 +6,7 @@ import model.bean.Ordine;
 import model.bean.Utente;
 import model.dao.IndirizzoDAO;
 import model.dao.UtenteDAO;
+import model.dao.MetodoPagamentoDAO;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -26,6 +27,9 @@ public class GestioneProfilo {
     
     @EJB
     private IndirizzoDAO indirizzoDAO;
+    
+    @EJB
+    private MetodoPagamentoDAO metodoPagamentoDAO;
     
     public GestioneProfilo() {}
 
@@ -134,17 +138,26 @@ public class GestioneProfilo {
 
 
     // Aggiungi un nuovo metodo di pagamento
-    public void aggiungiMetodoPagamento(Utente utente, MetodoPagamento newMetodoPagamento) {
+    public void addMetodoPagamento(Utente utente, MetodoPagamento newMetodoPagamento) {
         if (utente == null || newMetodoPagamento == null) {
             throw new IllegalArgumentException("Utente o metodo di pagamento non valido");
         }
+
+        // Associa il metodo di pagamento all'utente
+        newMetodoPagamento.setUtente(utente);
         
-        // Aggiungi il metodo di pagamento alla lista
+        //Salva il metodo di pagamento nel database (la prima volta)
+        metodoPagamentoDAO.save(newMetodoPagamento);
+
+        //Aggiungere il nuovo metodi di pagamento all'elenco dei metodi di pagamento dell'utente
         List<MetodoPagamento> metodi = utente.getMetodiPagamento();
         metodi.add(newMetodoPagamento);
-        
+
+        //Associare la lista aggiornata all'utente ed aggiornare il database
+        utente.setMetodiPagamento(metodi);
         utenteDAO.save(utente);
-        System.out.println("Utente (aggiunto metodo pagameto):\t" + utente.toString());
+
+        System.out.println("Utente (aggiunto metodo di pagamento):\t" + newMetodoPagamento);
     }
 
     // Modifica un metodo di pagamento esistente

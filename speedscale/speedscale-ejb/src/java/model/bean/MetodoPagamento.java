@@ -11,18 +11,25 @@ public class MetodoPagamento {
 
     private String numero;
     private String intestatario;
-    private int meseScadenza;
-    private int annoScadenza;
+    private String meseScadenza;
+    private String annoScadenza;
     private String cvv;
 
     @ManyToOne
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
-    public MetodoPagamento() {
+    public MetodoPagamento() {}
+
+    public MetodoPagamento(String numero, String intestatario, String meseScadenza, String annoScadenza, String cvv) {
+        this.numero = numero;
+        this.intestatario = intestatario;
+        this.meseScadenza = meseScadenza;
+        this.annoScadenza = annoScadenza;
+        this.cvv = cvv;
     }
 
-    public MetodoPagamento(String numero, String intestatario, int meseScadenza, int annoScadenza, String cvv, Utente utente) {
+    public MetodoPagamento(String numero, String intestatario, String meseScadenza, String annoScadenza, String cvv, Utente utente) {
         this.numero = numero;
         this.intestatario = intestatario;
         this.meseScadenza = meseScadenza;
@@ -51,22 +58,22 @@ public class MetodoPagamento {
         this.intestatario = intestatario;
     }
 
-    public int getMeseScadenza() {
+    public String getMeseScadenza() {
         return meseScadenza;
     }
 
-    public void setMeseScadenza(int meseScadenza) {
+    public void setMeseScadenza(String meseScadenza) {
         this.meseScadenza = meseScadenza;
     }
 
-    public int getAnnoScadenza() {
+    public String getAnnoScadenza() {
         return annoScadenza;
     }
 
-    public void setAnnoScadenza(int annoScadenza) {
+    public void setAnnoScadenza(String annoScadenza) {
         this.annoScadenza = annoScadenza;
     }
-
+    
     public String getCvv() {
         return cvv;
     }
