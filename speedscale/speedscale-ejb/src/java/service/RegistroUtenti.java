@@ -111,8 +111,13 @@ public class RegistroUtenti {
      */
     public void inizializzaSessione(Utente utente, HttpSession session) {
         if (utente != null) {
-            session.setAttribute("utente", utente);  // Memorizza l'utente nella sessione
+            session.setAttribute("utente", utente);
         }
+        
+        session.setAttribute("isCliente", 1);
+        session.setAttribute("isResponsabileMagazzino", 0);
+        session.setAttribute("isGestoreOrdini", 0);
+        session.setAttribute("isAdmin", 0);
         
         if (utente.getRuoli().contains(Ruolo.CLIENTE)) {
             // Controlla se l'utente ha già un carrello nel database
@@ -123,9 +128,19 @@ public class RegistroUtenti {
                 carrello = new Carrello(utente, null);
                 utente.setCarrello(carrello);
                 carrello.setUtente(utente);
+                
+                carrelloDAO.save(carrello);                
+                utenteDAO.save(utente);
             }
             
+            session.setAttribute("isCliente", 1);            
             System.out.println("Carrello query:\t" + carrello.toString());
+        } else if (utente.getRuoli().contains(Ruolo.RESPONSABILE_MAGAZZINO)) {
+            session.setAttribute("isResponsabileMagazzino", 1);
+        } else if (utente.getRuoli().contains(Ruolo.GESTORE_ORDINI)) {
+            session.setAttribute("isGestoreOrdini", 1);
+        } else if (utente.getRuoli().contains(Ruolo.AMMINISTRATORE)) {
+            session.setAttribute("isAdmin", 1);
         }
     }
     

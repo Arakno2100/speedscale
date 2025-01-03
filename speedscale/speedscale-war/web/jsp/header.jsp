@@ -20,7 +20,7 @@
         <img src="images/logo.png" alt="Logo">
     </a>
 
-    <a href="${pageContext.request.contextPath}/index.jsp">SpeedScale</a>
+    <a href="${pageContext.request.contextPath}/index.jsp">Comic Vault</a>
 
     <div class="search-container">
         <form action="">
@@ -40,14 +40,13 @@
             </c:when>
             <c:when test="${isAdmin == 0}"> <!-- Accesso effettuato come user -->
                 <a href="${pageContext.request.contextPath}/common/homepage.jsp">Profilo</a>
-
+                <a href="${pageContext.request.contextPath}/common/RetrieveAccountCartServlet">Carrello</a>
             </c:when>
             <c:otherwise> <!-- Non ancora effettuato l'accesso -->
                 <a href="${pageContext.request.contextPath}/common/login.jsp">Accedi</a>
+                <a href="${pageContext.request.contextPath}/common/RetrieveAccountCartServlet">Carrello</a>
             </c:otherwise>
         </c:choose>
-
-        <a href="${pageContext.request.contextPath}/common/RetrieveAccountCartServlet">Carrello</a>
     </div>
 </div>
 
