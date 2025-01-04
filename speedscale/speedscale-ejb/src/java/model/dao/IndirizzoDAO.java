@@ -2,11 +2,11 @@ package model.dao;
 
 import model.bean.Indirizzo;
 
+import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.List;
-import javax.ejb.Stateless;
 
 @Stateless
 public class IndirizzoDAO {
