@@ -27,7 +27,7 @@
             <label>
                 <input id="search" type="text" placeholder="Cerca.." name="name" oninput="sendSliderValue('${pageContext.request.contextPath}')">
             </label>
-            <span class="fa fa-search" style="color: white; margin-right: 10px" id ="num"> 0 </span>
+            <span class="fa fa-search" style="color: white; margin-right: 10px" id ="num"></span>
         </form>
     </div>
 
