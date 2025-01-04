@@ -15,7 +15,6 @@ public class Prodotto {
     private String descrizione;
     private double prezzo;
     private int quantitàDisponibile;
-    private String image_path;
 
     @Enumerated(EnumType.STRING)
     private Scala scala;
