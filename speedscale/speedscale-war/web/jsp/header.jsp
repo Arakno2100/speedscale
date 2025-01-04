@@ -16,11 +16,11 @@
 <body>
 
 <div class="topnav">
-    <a href="index.jsp">
+    <a href="${pageContext.request.contextPath}/common/IndexServlet">
         <img src="images/logo.png" alt="Logo">
     </a>
 
-    <a href="${pageContext.request.contextPath}/index.jsp">Comic Vault</a>
+    <a href="${pageContext.request.contextPath}/common/IndexServlet">Comic Vault</a>
 
     <div class="search-container">
         <form action="">
