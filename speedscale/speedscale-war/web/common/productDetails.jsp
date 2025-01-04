@@ -24,10 +24,12 @@
             <p>Marca: ${product.marca}</p>
 
             <c:choose>
+                <c:when test="${product.quantitàDisponibile == -1}">
+                    <p style="color: green;">In arrivo</p>
+                </c:when>
                 <c:when test="${product.quantitàDisponibile <= 0}">
                     <p style="color: red;">Esaurito</p>
                 </c:when>
-
                 <c:otherwise>
                     <form action="${pageContext.request.contextPath}/common/AddToCartServlet" method="post">
                         <input type="hidden" name="productId" value="${product.id}">

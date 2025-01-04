@@ -10,11 +10,16 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.ejb.EJB;
 import model.bean.Prodotto;
+import model.bean.Utente;
 import service.Catalogo;
+import service.RegistroUtenti;
 
 
 @WebServlet(value = "/common/IndexServlet", loadOnStartup = 1)
 public class IndexServlet extends HttpServlet {
+    
+    @EJB
+    private RegistroUtenti registroUtenti;
 
     @EJB
     private Catalogo catalogo;
@@ -24,6 +29,11 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        Utente utente = (Utente) request.getSession().getAttribute("utente");
+        
+        if (utente == null)
+            registroUtenti.inizializzaSessione(null, request.getSession());
         
         // Recupera i dati per le sezioni della pagina
         List<Prodotto> latestProducts = catalogo.getLatestProducts(3);

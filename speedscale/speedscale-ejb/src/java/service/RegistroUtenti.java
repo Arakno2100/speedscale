@@ -7,7 +7,6 @@ import model.dao.UtenteDAO;
 import model.bean.Carrello;
 import model.dao.CarrelloDAO;
 import model.bean.Ruolo;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -110,15 +109,32 @@ public class RegistroUtenti {
      * @param session La sessione HTTP da aggiornare
      */
     public void inizializzaSessione(Utente utente, HttpSession session) {
-        if (utente != null) {
-            session.setAttribute("utente", utente);
-        }
         
+        if (utente == null) {
+            //Utente non loggato
+            //Controllare se carrello temporaneo già presente
+            Carrello carrello = (Carrello) session.getAttribute("carrello");
+            
+            if (carrello == null) {
+                //Creazione di un carrello temporaneo
+                carrello = new Carrello();
+                carrelloDAO.save(carrello);
+                session.setAttribute("carrello", carrello);
+                System.out.println("Carrello temp:\t" + carrello.toString());
+            }   
+        } else {
+            setAttributiSessione(utente, session);
+        }            
+    }
+    
+    private void setAttributiSessione(Utente utente, HttpSession session) {
+        session.setAttribute("utente", utente);
         session.setAttribute("isCliente", 1);
         session.setAttribute("isResponsabileMagazzino", 0);
         session.setAttribute("isGestoreOrdini", 0);
         session.setAttribute("isAdmin", 0);
         
+    
         if (utente.getRuoli().contains(Ruolo.CLIENTE)) {
             // Controlla se l'utente ha già un carrello nel database
             Carrello carrello = carrelloDAO.findByUtente(utente);
@@ -142,6 +158,7 @@ public class RegistroUtenti {
         } else if (utente.getRuoli().contains(Ruolo.AMMINISTRATORE)) {
             session.setAttribute("isAdmin", 1);
         }
+    
     }
     
     private String encryptPassword(String password) {
