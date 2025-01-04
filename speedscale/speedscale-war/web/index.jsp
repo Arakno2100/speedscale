@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="errors/404.jsp" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -16,7 +16,7 @@
 <div class="viewer">
   <c:forEach var="product" items="${latestProducts}">
     <div class="card">
-      <p> <img src="${pageContext.request.contextPath}/images/products/${product.image_path}"></p>
+      <p> <img src="${product.urls[0]}"></p>
       <p>${product.nome}</p>
       <a href="${pageContext.request.contextPath}/common/ProductDetailsServlet?id=${product.id}"> <button>Dettaglio</button></a>
     </div>
@@ -27,7 +27,7 @@
 <div class="viewer">
   <c:forEach var="product" items="${bestSellingProducts}">
     <div class="card">
-      <p> <img src="${pageContext.request.contextPath}/images/products/${product.image_path}"></p>
+      <p> <img src="${product.urls[0]}"></p>
       <p>${product.nome}</p>
       <a href="${pageContext.request.contextPath}/common/ProductDetailsServlet?id=${product.id}"> <button>Dettaglio</button></a>
     </div>
@@ -38,7 +38,7 @@
 <div class="viewer">
   <c:forEach var="product" items="${upcomingProducts}">
     <div class="card">
-      <p> <img src="${pageContext.request.contextPath}/images/products/${product.image_path}"></p>
+      <p> <img src="${product.urls[0]}"></p>
       <p>${product.nome}</p>
       <a href="${pageContext.request.contextPath}/common/ProductDetailsServlet?id=${product.id}"> <button>Dettaglio</button></a>
     </div>

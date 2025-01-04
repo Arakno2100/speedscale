@@ -15,6 +15,7 @@ public class Prodotto {
     private String descrizione;
     private double prezzo;
     private int quantitàDisponibile;
+    private String image_path;
 
     @Enumerated(EnumType.STRING)
     private Scala scala;
@@ -27,8 +28,7 @@ public class Prodotto {
     @Column(name = "url")
     private List<String> urls;  // Lista di URL
 
-    public Prodotto() {
-    }
+    public Prodotto() {}
 
     public Prodotto(String nome, String descrizione, double prezzo, int quantitàDisponibile, Scala scala, Marca marca) {
         this.nome = nome;

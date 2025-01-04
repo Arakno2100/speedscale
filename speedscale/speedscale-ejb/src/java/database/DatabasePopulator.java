@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
@@ -13,6 +14,9 @@ import model.bean.Prodotto;
 import model.bean.Ruolo;
 import model.bean.Scala;
 import model.bean.Utente;
+import model.dao.ProdottoDAO;
+import model.dao.UtenteDAO;
+import service.Catalogo;
 
 @Singleton
 @Startup
@@ -20,6 +24,15 @@ public class DatabasePopulator {
     
     @PersistenceContext(unitName = "SpeedScalePU")
     private EntityManager entityManager;
+    
+    @EJB
+    private UtenteDAO utenteDAO;
+    
+    @EJB
+    private ProdottoDAO prodottoDAO;
+    
+    @EJB
+    private Catalogo catalogo;
 
     @PostConstruct
     private void populateDB() {
@@ -38,11 +51,13 @@ public class DatabasePopulator {
         clienteRuoli.add(Ruolo.CLIENTE);
         Utente cliente = new Utente("user@email.it", "88ba325658610a3d6e200eb01d6cf71390d5dab8abd46d309f306a3082489fea9e5817fe9a54dd91775a09ce71bc2d5aa7ebbd18ea2c5e33cf797f56a4256b06", "Riccardo", "Verdi", new Date(), clienteRuoli);
         
-        entityManager.persist(admin);
-        entityManager.persist(cliente);
+        utenteDAO.save(admin);
+        utenteDAO.save(cliente);
     }
     
     private void createProdotti() {
+        
+        List<String> urls = new ArrayList<>();
         
         Prodotto p1 = new Prodotto("Charles Leclerc Ferrari SF-24 Imola 2024",
                 "Il modellino Burago, Bburago della nuova e bellissima Ferrari SF-24 la monoposto con cui Charles Leclerc disputa il mondiale F1 2024!",
@@ -51,12 +66,21 @@ public class DatabasePopulator {
                 Scala.SCA_1_43,
                 Marca.BBURAGO);
         
+        urls.add("https://i0.wp.com/motorsportclan.com/wp-content/uploads/2024/06/modellino-ferrari-f1-2024-sf-24-leclerc-burago-scala-143.jpg?fit=1200%2C800&ssl=1");
+        p1.setUrls(urls);
+        prodottoDAO.save(p1);
+        
         Prodotto p2 = new Prodotto("Ferrari 499P #51 Vincitrice 24 ore Le Mans 2023 Hypercar",
                 "L’attesissimo modellino della stupenda Ferrari 499P numero 51, il prototipo hypercar che riporta, dopo 58 anni, la scuderia di Maranello alla vittoria nella leggendaria 24 ore di Le Mans con Alessandro Pier Guidi, Antonio Giovinazzi e James Calado!",
                 25.50,
                 100,
                 Scala.SCA_1_43,
                 Marca.BBURAGO);
+        
+        urls = new ArrayList<>();
+        urls.add("https://i0.wp.com/motorsportclan.com/wp-content/uploads/2023/06/modellino-ferrari-499p-numero-51-bburago-24h-le-mans-1-43.jpg?fit=1029%2C700&ssl=1");
+        p2.setUrls(urls);
+        prodottoDAO.save(p2);
         
         Prodotto p3 = new Prodotto("Francesco Bagnaia Ducati GP22 Campione MotoGP 2022",
                 "L’attesissimo modellino della Ducati MotoGP Campione del mondo 2022 con il nostro Pecco Bagnaia!",
@@ -65,9 +89,13 @@ public class DatabasePopulator {
                 Scala.SCA_1_18,
         Marca.LOOKSMART);
         
-        entityManager.persist(p1);
-        entityManager.persist(p1);
-        entityManager.persist(p1);
+        urls = new ArrayList<>();
+        urls.add("https://i0.wp.com/motorsportclan.com/wp-content/uploads/2023/09/modellino-ducati-pecco-bagnaia-gp22-campione-2022-scala1-18.jpg?fit=1200%2C800&ssl=1");
+        p3.setUrls(urls);
+        prodottoDAO.save(p3);
+        
+        catalogo.addNewProdotto(p1);
+        catalogo.addNewProdotto(p2);
+        catalogo.addNewProdotto(p3);        
     }
-
 }
