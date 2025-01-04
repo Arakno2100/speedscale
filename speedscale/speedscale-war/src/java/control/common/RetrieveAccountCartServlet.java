@@ -41,7 +41,7 @@ public class RetrieveAccountCartServlet extends HttpServlet {
         float totale = 0;
         
         for (CarrelloProdotto voce : voci) {
-            totale += voce.getProdotto().getPrezzo();
+            totale += voce.getProdotto().getPrezzo() * voce.getQuantità();
             prodotti.add(voce.getProdotto());
         }
         

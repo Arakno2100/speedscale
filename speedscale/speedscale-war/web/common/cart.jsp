@@ -12,6 +12,16 @@
 
 <div class="container">
     <h1>Il tuo carrello</h1>
+    
+    <div id="errorMessages">
+        <%
+            String errors = (String) request.getAttribute("errors");
+            if (errors != null) {
+        %>
+        <p class="error-message"><%= errors %></p>
+        <% } %>
+        
+    </div>
 
     <c:if test="${not empty prodottiCarrello}">
     <div style="overflow-x: auto">
@@ -30,9 +40,9 @@
                     <td>${items[status.index].nome}</td> <!-- Nome del prodotto -->
                     <td>${items[status.index].prezzo}&euro;</td> <!-- Prezzo del prodotto -->
                     <td>
-                        <form action="${pageContext.request.contextPath}/common/UpdateCartItemServlet" method="post">
+                        <form action="${pageContext.request.contextPath}/common/AddToCartServlet" method="post">
                             <input type="hidden" name="action" value="update">
-                            <input type="hidden" name="productId" value="${prodottoCarrello.id}">
+                            <input type="hidden" name="productId" value="${prodottoCarrello.getProdotto().getId()}">
                             <input type="number" name="quantity" min="1" value="${prodottoCarrello.quantità}">
                             <button  class="btn" style="width: 80%; margin: 10px auto" type="submit">Modifica</button>
                         </form>

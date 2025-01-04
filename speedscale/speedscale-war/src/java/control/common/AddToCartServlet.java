@@ -61,14 +61,14 @@ public class AddToCartServlet extends HttpServlet {
         
         if (carrelloProdottoEsistente != null) {
             // Se il prodotto esiste, aggiorna la quantità
-            int nuovaQuantità = carrelloProdottoEsistente.getQuantità() + quantity;
-            
-            if (nuovaQuantità > prodotto.getQuantitàDisponibile()) {
-                response.sendRedirect(request.getContextPath() + "/productNotAvailable.jsp");
+                        
+            if (quantity <= 0 || quantity > prodotto.getQuantitàDisponibile()) {
+                request.setAttribute("errors", "La quantità indicata per il prodotto \"" + prodotto.getNome() + "\" non è valida");
+                request.getRequestDispatcher("/common/RetrieveAccountCartServlet").forward(request, response);
                 return ;
             }
             
-            carrelloProdottoEsistente.setQuantità(nuovaQuantità);
+            carrelloProdottoEsistente.setQuantità(quantity);
         } else {
             // Se il prodotto non esiste, aggiungilo al carrello
             CarrelloProdotto nuovoCarrelloProdotto = new CarrelloProdotto(carrello, prodotto, quantity);
