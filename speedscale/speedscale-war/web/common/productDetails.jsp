@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 
 <head>
@@ -20,7 +21,7 @@
             <h1>${product.nome}</h1>
             <h3>${product.prezzo}&euro;</h3>
             <p>Descrizione: ${product.descrizione}</p>
-            <p>Scala: ${product.scala}</p>
+            <p>Scala: ${fn:replace(product.scala, '_', ':').substring(4)}</p>
             <p>Marca: ${product.marca}</p>
 
             <c:choose>
