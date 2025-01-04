@@ -41,7 +41,7 @@ public class AddMetodoPagamentoServlet extends HttpServlet {
         String anno = request.getParameter("anno");
         String cvv = request.getParameter("cvv");
         
-        MetodoPagamento metodo = new MetodoPagamento(intestatario, numero, mese, anno, cvv);
+        MetodoPagamento metodo = new MetodoPagamento(numero, intestatario, mese, anno, cvv);
         
         return metodo;
     }
