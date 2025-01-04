@@ -115,6 +115,9 @@ public class RegistroUtenti {
             //Controllare se carrello temporaneo già presente
             Carrello carrello = (Carrello) session.getAttribute("carrello");
             
+            System.out.println("Utente non loggato");
+            System.out.println("Carrello in sessione:\t" + carrello);
+            
             if (carrello == null) {
                 //Creazione di un carrello temporaneo
                 carrello = new Carrello();

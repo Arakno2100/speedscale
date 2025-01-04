@@ -31,14 +31,6 @@ public class CarrelloProdottoDAO {
     public List<CarrelloProdotto> findAll() {
         return entityManager.createQuery("SELECT c FROM CarrelloProdotto c", CarrelloProdotto.class).getResultList();
     }
-
-    @Transactional
-    public void delete(Long id) {
-        CarrelloProdotto carrelloProdotto = findById(id);
-        if (carrelloProdotto != null) {
-            entityManager.remove(carrelloProdotto);
-        }
-    }
     
     @Transactional
     public void delete(CarrelloProdotto cp) {

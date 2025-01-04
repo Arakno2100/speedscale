@@ -58,6 +58,6 @@ public class CarrelloProdotto {
 
     @Override
     public String toString() {
-        return "CarrelloProdotto{" + "id=" + id + ", carrello=" + carrello + ", prodotto=" + prodotto + ", quantit\u00e0=" + quantità + '}';
+        return "CarrelloProdotto{" + "id=" + id + ", carrelloId=" + carrello.getId() + ", prodotto=" + prodotto + ", quantit\u00e0=" + quantità + '}';
     }
 }

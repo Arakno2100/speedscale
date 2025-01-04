@@ -40,7 +40,7 @@
                     <td>
                         <form action="${pageContext.request.contextPath}/common/RemoveCartItemServlet" method="post">
                             <input type="hidden" name="action" value="remove">
-                            <input type="hidden" name="productId" value="${prodottoCarrello.id}">
+                            <input type="hidden" name="productId" value="${prodottoCarrello.getProdotto().getId()}">
                             <button class="btn"  type="submit">Rimuovi</button>
                         </form>
                     </td>
