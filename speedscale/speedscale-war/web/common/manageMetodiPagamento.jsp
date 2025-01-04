@@ -23,7 +23,7 @@
     <c:forEach var="metodo" items="${metodiPagamento}">
         <div class="card">
             <p>Intestatario: ${metodo.getIntestatario()}</p>
-            <p>Numero ${metodo.getNumero()}</p>
+            <p>Numero: ${metodo.getNumero()}</p>
             <p>Mese Scadenza: ${metodo.getMeseScadenza()}</p>
             <p>Anno Scadenza: ${metodo.getAnnoScadenza()}</p>
 
@@ -34,6 +34,7 @@
                     <input type="hidden" name="numero" value="${metodo.getNumero()}" />
                     <input type="hidden" name="mese" value="${metodo.getMeseScadenza()}" />
                     <input type="hidden" name="anno" value="${metodo.getAnnoScadenza()}" />
+                    <input type="hidden" name="cvv" value="${metodoPagamento.getCvv()}" />
                     <button type="submit">Modifica</button>
                 </form>
             </div>

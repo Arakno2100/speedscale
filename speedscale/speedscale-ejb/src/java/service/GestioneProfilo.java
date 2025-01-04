@@ -163,20 +163,29 @@ public class GestioneProfilo {
     // Modifica un metodo di pagamento esistente
     public void modificaMetodoPagamento(Utente utente, MetodoPagamento metodoPagamento, MetodoPagamento newMetodoPagamento) {
         if (utente == null || metodoPagamento == null || newMetodoPagamento == null) {
-            throw new IllegalArgumentException("Utente o metodo di pagamento non valido");
+            throw new IllegalArgumentException("Utente o metodo pagamento non valido");
         }
+
+        // Modifica delle proprietà del metodo di pagamento esistente con quelle del nuovo metodo di pagamento
+        metodoPagamento.setIntestatario(newMetodoPagamento.getIntestatario());
+        metodoPagamento.setNumero(newMetodoPagamento.getNumero());
+        metodoPagamento.setMeseScadenza(newMetodoPagamento.getMeseScadenza());
+        metodoPagamento.setAnnoScadenza(newMetodoPagamento.getAnnoScadenza());
+
+        // Salva le modifiche
+        metodoPagamentoDAO.save(metodoPagamento);
+
+        // Forza il refresh dell'indirizzo, se necessar
+        metodoPagamentoDAO.refresh(metodoPagamento);
         
-        // Trova e sostituisci il metodo di pagamento
-        List<MetodoPagamento> metodi = utente.getMetodiPagamento();
-        if (!metodi.contains(metodoPagamento)) {
-            throw new IllegalArgumentException("Metodo di pagamento non trovato");
-        }
-        
-        int index = metodi.indexOf(metodoPagamento);
-        metodi.set(index, newMetodoPagamento);
-        
-        utenteDAO.save(utente);
-        System.out.println("Utente (modificato metodo pagameto):\t" + utente.toString());
+        // Ricarica l'utente e gli indirizzi aggiornati
+        Utente utenteRicaricato = utenteDAO.findById(utente.getId());  // Ricarica l'utente dal database
+        List<MetodoPagamento> metodiAggiornati = utenteRicaricato.getMetodiPagamento();
+        utente.setMetodiPagamento(metodiAggiornati);
+
+        utenteDAO.save(utente);  // Salva l'utente con gli indirizzi aggiornati
+
+        System.out.println("Metodo di pagamento modificato: " + metodoPagamento);
     }
 
     // Rimuovi un metodo di pagamento
