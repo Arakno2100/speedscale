@@ -19,17 +19,26 @@ public class Ordine {
     @ManyToOne
     @JoinColumn(name = "utente_id")
     private Utente utente;
+    
+    @ManyToOne
+    @JoinColumn(name = "indirizzo_id")
+    private Indirizzo indirizzo;
+    
+    @ManyToOne
+    @JoinColumn(name = "metodo_id")
+    private MetodoPagamento metodoPagamento;
 
-    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ordine", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrdineProdotto> prodotti; // Associazioni con quantità e prezzoUnitario
 
-    public Ordine() {
-    }
+    public Ordine() {}
 
-    public Ordine(Date data, StatoOrdine stato, Utente utente, List<OrdineProdotto> prodotti) {
+    public Ordine(Date data, StatoOrdine stato, Utente utente, Indirizzo indirizzo, MetodoPagamento metodoPagamento, List<OrdineProdotto> prodotti) {
         this.data = data;
         this.stato = stato;
         this.utente = utente;
+        this.indirizzo = indirizzo;
+        this.metodoPagamento = metodoPagamento;
         this.prodotti = prodotti;
     }
 
@@ -61,6 +70,22 @@ public class Ordine {
         this.utente = utente;
     }
 
+    public Indirizzo getIndirizzo() {
+        return indirizzo;
+    }
+
+    public void setIndirizzo(Indirizzo indirizzo) {
+        this.indirizzo = indirizzo;
+    }
+
+    public MetodoPagamento getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(MetodoPagamento metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
+
     public List<OrdineProdotto> getProdotti() {
         return prodotti;
     }
@@ -68,9 +93,16 @@ public class Ordine {
     public void setProdotti(List<OrdineProdotto> prodotti) {
         this.prodotti = prodotti;
     }
+    
+    public float getTotale() {
+        float totale = 0;
+        for (OrdineProdotto prodotto : prodotti)
+            totale += prodotto.getPrezzoUnitario() * prodotto.getQuantità();
+        return totale;
+    }
 
     @Override
     public String toString() {
-        return "Ordine{" + "id=" + id + ", data=" + data + ", stato=" + stato + ", utente=" + utente + ", prodotti=" + prodotti + '}';
+        return "Ordine{" + "id=" + id + ", data=" + data + ", stato=" + stato + ", utente=" + utente + ", indirizzo=" + indirizzo + ", metodoPagamento=" + metodoPagamento + ", prodotti=" + prodotti + '}';
     }
 }

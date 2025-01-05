@@ -68,6 +68,8 @@ public class OrdineProdotto {
 
     @Override
     public String toString() {
-        return "OrdineProdotto{" + "id=" + id + ", ordine=" + ordine + ", prodotto=" + prodotto + ", quantit\u00e0=" + quantità + ", prezzoUnitario=" + prezzoUnitario + '}';
+        return "OrdineProdotto{" + "id=" + id + ", ordineId=" + ordine.getId() + ", prodotto=" + prodotto + ", quantit\u00e0=" + quantità + ", prezzoUnitario=" + prezzoUnitario + '}';
     }
+
+    
 }

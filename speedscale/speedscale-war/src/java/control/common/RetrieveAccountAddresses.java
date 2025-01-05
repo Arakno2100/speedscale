@@ -2,10 +2,7 @@ package control.common;
 
 import model.bean.Indirizzo;
 import model.bean.Utente;
-import model.dao.UtenteDAO;
-import service.GestioneProfilo;
 
-import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

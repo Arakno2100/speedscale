@@ -47,8 +47,9 @@ public class RetrieveAccountMetodiPagamento extends HttpServlet {
             }
 
             request.setAttribute("total", total);
+            request.setAttribute("addressId", request.getParameter("addressId"));
             /*DA MODIFICARE SICURAMENTE*/
-            request.getRequestDispatcher("/common/selectAddress.jsp").forward(request, response);
+            request.getRequestDispatcher("/common/selectMetodoPagamento.jsp").forward(request, response);
             return ;
         }
 
