@@ -1,5 +1,6 @@
 package service;
 
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import model.bean.*;
 import model.dao.CarrelloDAO;
 import model.dao.UtenteDAO;
 import model.dao.ProdottoDAO;
+import model.dao.CarrelloProdottoDAO;
 
 @Singleton
 public class CarrelloService {
@@ -20,6 +22,9 @@ public class CarrelloService {
     
     @EJB
     private CarrelloDAO carrelloDAO;
+    
+    @EJB
+    private CarrelloProdottoDAO carrelloProdottoDAO;
     
     @EJB
     private ProdottoDAO prodottoDAO;
@@ -72,13 +77,38 @@ public class CarrelloService {
     /**
      * Rimuove un prodotto dal carrello.
      */
-    public Carrello removeProdottoCarrello(Carrello carrello, Prodotto prodotto) {
+    public void removeProdottoCarrello(Carrello carrello, Prodotto prodotto) {
         if (carrello == null || prodotto == null) {
             throw new IllegalArgumentException("Parametri non validi per la rimozione dal carrello.");
         }
+        
+        List<CarrelloProdotto> voci = carrello.getProdotti();
+        
+        System.out.println("Prodotto da rimuovere:\t" + prodotto);
+        
+        int index = -1;
+        
+        for (CarrelloProdotto voce : voci) {
+            if (voce.getProdotto().getId() == prodotto.getId()) {
+                index = voci.indexOf(voce);
+            }
+        }
+        
+        if (index != -1) {
+            System.out.println("Corrispondenza trovata");
+            
+            CarrelloProdotto voce = voci.get(index);
+                
+            //Ripristinare quantità in magazzino
+            prodotto.setQuantitàDisponibile(prodotto.getQuantitàDisponibile() + voce.getQuantità());
+            voci.remove(voce);
+            carrello.setProdotti(voci);
+            prodottoDAO.save(prodotto);
+            carrelloProdottoDAO.delete(voce);
+            carrelloDAO.save(carrello);                
 
-        carrello.getProdotti().removeIf(cp -> cp.getProdotto().getId().equals(prodotto.getId()));
-        return carrello;
+            System.out.println("Nuovo carrello:\t" + carrello);
+        }
     }
 
     
