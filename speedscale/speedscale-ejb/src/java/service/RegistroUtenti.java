@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import model.bean.CarrelloProdotto;
 
 @Singleton
 public class RegistroUtenti {
@@ -27,6 +28,9 @@ public class RegistroUtenti {
     
     @EJB
     private CarrelloDAO carrelloDAO;
+    
+    @EJB
+    private CarrelloService carrelloService;
 
     public RegistroUtenti() {}
 
@@ -45,17 +49,6 @@ public class RegistroUtenti {
             return utenteBean;
         
         return null;
-    }
-
-    /**
-     * Verifica se la password fornita corrisponde all'hash salvato nel database.
-     * 
-     * @param pwd password da verificare
-     * @param storedHash hash salvato nel database
-     * @return true se la password corrisponde, false altrimenti
-     */
-    private boolean checkPassword(String pwd, String storedHash) {
-        return pwd.equals(storedHash);
     }
 
     /**
@@ -140,19 +133,45 @@ public class RegistroUtenti {
     
         if (utente.getRuoli().contains(Ruolo.CLIENTE)) {
             // Controlla se l'utente ha già un carrello nel database
-            Carrello carrello = carrelloDAO.findByUtente(utente);
+            Carrello carrelloUtente = carrelloDAO.findByUtente(utente);
 
-            if (carrello == null) {
-                // Se non esiste, crea un nuovo carrello
-                carrello = new Carrello(utente, null);
-                utente.setCarrello(carrello);
-                carrello.setUtente(utente);
-                
-                carrelloDAO.save(carrello);                
+            //Controlla se esiste già un carrello in sessione
+            Carrello tempCarrello = (Carrello) session.getAttribute("carrello");
+            
+            if(carrelloUtente == null && tempCarrello == null) {
+                //Creare carrello da associare all'utente
+                tempCarrello = new Carrello(utente, null);
+                utente.setCarrello(tempCarrello);
+                tempCarrello.setUtente(utente);
+                carrelloDAO.save(tempCarrello);                
                 utenteDAO.save(utente);
+                session.setAttribute("carrello", tempCarrello);
+            } else if (carrelloUtente == null && tempCarrello != null) {
+                //Associare il carrello temporaneo all'utente
+                utente.setCarrello(tempCarrello);
+                tempCarrello.setUtente(utente);
+                carrelloDAO.save(tempCarrello);
+                utenteDAO.save(utente);
+                session.setAttribute("carrello", tempCarrello);
+            } else if (carrelloUtente != null && tempCarrello == null) {
+                //L'utente ha già un carrello + caricare il carrello in sessione
+                session.setAttribute("carrello", carrelloUtente);
+            } else if (carrelloUtente != null && tempCarrello != null) {
+                //Aggiungere i prodotti del carrello temporaneo in quello persistente
+                List<CarrelloProdotto> voci = tempCarrello.getProdotti();
+                
+                for (CarrelloProdotto voce : voci)
+                    carrelloService.addProdottoCarrello(carrelloUtente, voce.getProdotto(), voce.getQuantità());
+                
+                carrelloDAO.save(carrelloUtente);                
+                utenteDAO.save(utente);
+                session.setAttribute("carrello", carrelloUtente);
             }
             
-            session.setAttribute("isCliente", 1);            
+            session.setAttribute("isCliente", 1);
+            
+            Carrello carrello = (Carrello) session.getAttribute("carrello");
+            
             System.out.println("Carrello query:\t" + carrello.toString());
         } else if (utente.getRuoli().contains(Ruolo.RESPONSABILE_MAGAZZINO)) {
             session.setAttribute("isResponsabileMagazzino", 1);

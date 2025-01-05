@@ -118,7 +118,8 @@ public class Utente implements Serializable {
     public void setCarrello(Carrello carrello) {
         this.carrello = carrello;
         
-        if (!carrello.getUtente().equals(this))
+        
+        if ((carrello.getUtente() == null) || (!carrello.getUtente().equals(this)))
             carrello.setUtente(this);
     }
 
