@@ -18,26 +18,26 @@
         <div class="viewer">
             <c:forEach var="metodo" items="${metodiPagamento}">
                 <div class="card">
-                    <p>Intestatario: ${metodo.getIntestatario()}</p>
-                    <p>Numero: ${metodo.getNumero()}</p>
-                    <p>Mese Scadenza: ${metodo.getMeseScadenza()}</p>
-                    <p>Anno Scadenza: ${metodo.getAnnoScadenza()}</p>
+                    <p>Intestatario: ${metodo.intestatario}</p>
+                    <p>Numero: ${metodo.numero}</p>
+                    <p>Mese Scadenza: ${metodo.meseScadenza}</p>
+                    <p>Anno Scadenza: ${metodo.annoScadenza}</p>
 
                     <div>
                         <form action="${pageContext.request.contextPath}/common/updateMetodoPagamento.jsp" method="post">
-                            <input type="hidden" name="id" value="${metodo.getId()}" />
-                            <input type="hidden" name="intestatario" value="${metodo.getIntestatario()}" />
-                            <input type="hidden" name="numero" value="${metodo.getNumero()}" />
-                            <input type="hidden" name="mese" value="${metodo.getMeseScadenza()}" />
-                            <input type="hidden" name="anno" value="${metodo.getAnnoScadenza()}" />
-                            <input type="hidden" name="cvv" value="${metodoPagamento.getCvv()}" />
+                            <input type="hidden" name="id" value="${metodo.id}" />
+                            <input type="hidden" name="intestatario" value="${metodo.intestatario}" />
+                            <input type="hidden" name="numero" value="${metodo.numero}" />
+                            <input type="hidden" name="mese" value="${metodo.meseScadenza}" />
+                            <input type="hidden" name="anno" value="${metodo.annoScadenza}" />
+                            <input type="hidden" name="cvv" value="${metodo.cvv}" />
                             <button type="submit">Modifica</button>
                         </form>
                     </div>
 
                     <div>
                         <form action="${pageContext.request.contextPath}/common/DeleteMetodoPagamento" method="post" onsubmit="return confirm('Sei sicuro di voler cancellare questo metodo di pagamento?');">
-                            <input type="hidden" name="id" value="${metodo.getId()}" />
+                            <input type="hidden" name="id" value="${metodo.id}" />
                             <button type="submit">Cancella</button>
                         </form>
                     </div>

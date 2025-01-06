@@ -41,6 +41,7 @@ public class AddMetodoPagamentoServlet extends HttpServlet {
             }
 
             request.setAttribute("total", total);
+            request.setAttribute("addressId", request.getParameter("addressId"));
             request.getRequestDispatcher("/common/selectMetodoPagamento.jsp").forward(request, response);
             return ;
         }

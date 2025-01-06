@@ -59,6 +59,7 @@
                 <c:if test="${param.fromCart == 'true'}">
                     <input type="hidden" name="fromCart" value="true">
                     <input type="hidden" name="total" value="${param.total}">
+                    <input type="hidden" name="addressId" value="${param.addressId}">
                 </c:if>
                 
                 <button id="addPaymentButton" type="submit" onmouseover="validateAllPayment('addPaymentMethodForm', 'addPaymentButton')">Aggiungi Metodo di Pagamento</button>
