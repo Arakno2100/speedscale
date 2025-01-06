@@ -56,6 +56,46 @@
         <servlet-name>ProductDetailsServlet</servlet-name>
         <servlet-class>control.common.ProductDetailsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <servlet-class>control.common.AddToCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RetrieveAccountCartServlet</servlet-name>
+        <servlet-class>control.common.RetrieveAccountCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveCartItemServlet</servlet-name>
+        <servlet-class>control.common.RemoveCartItemServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CatalogServlet</servlet-name>
+        <servlet-class>control.common.CatalogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCartItemServlet</servlet-name>
+        <servlet-class>control.common.UpdateCartItemServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FinalizeOrderServlet</servlet-name>
+        <servlet-class>control.common.FinalizeOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RetrieveAccountOrdersServlet</servlet-name>
+        <servlet-class>control.common.RetrieveAccountOrdersServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageOrdersServlet</servlet-name>
+        <servlet-class>control.admin.ManageOrdersServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteMetodoPagamento</servlet-name>
+        <servlet-class>control.common.DeleteMetodoPagamento</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateOrderStatusServlet</servlet-name>
+        <servlet-class>control.admin.UpdateOrderStatusServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoadOrCreateCartServlet</servlet-name>
         <url-pattern>/LoadOrCreateCartServlet</url-pattern>
@@ -108,11 +148,49 @@
         <servlet-name>ProductDetailsServlet</servlet-name>
         <url-pattern>/ProductDetailsServlet</url-pattern>
     </servlet-mapping>
-    
     <welcome-file-list>
         <welcome-file>common/IndexServlet</welcome-file>
     </welcome-file-list>
-    
+    <servlet-mapping>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/AddToCartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RetrieveAccountCartServlet</servlet-name>
+        <url-pattern>/RetrieveAccountCartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveCartItemServlet</servlet-name>
+        <url-pattern>/RemoveCartItemServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CatalogServlet</servlet-name>
+        <url-pattern>/CatalogServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCartItemServlet</servlet-name>
+        <url-pattern>/UpdateCartItemServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FinalizeOrderServlet</servlet-name>
+        <url-pattern>/FinalizeOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RetrieveAccountOrdersServlet</servlet-name>
+        <url-pattern>/RetrieveAccountOrdersServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageOrdersServlet</servlet-name>
+        <url-pattern>/ManageOrdersServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteMetodoPagamento</servlet-name>
+        <url-pattern>/DeleteMetodoPagamento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateOrderStatusServlet</servlet-name>
+        <url-pattern>/UpdateOrderStatusServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
