@@ -1,16 +1,16 @@
 package control.common;
 
-import java.io.IOException;
 import model.bean.Indirizzo;
 import model.bean.Utente;
 import service.GestioneProfilo;
 
-import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import javax.ejb.EJB;
 
 @WebServlet("/common/AddAddressServlet")
 public class AddAddressServlet extends HttpServlet {
@@ -22,13 +22,28 @@ public class AddAddressServlet extends HttpServlet {
     public void init() throws ServletException {}
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         Utente utente = (Utente) request.getSession().getAttribute("utente");
         
         Indirizzo newIndirizzo = extractAddressFromRequest(request);
         
         gestioneProfilo.addIndirizzoSpedizione(utente, newIndirizzo);
+        
+        // Verifica se la richiesta proviene dal carrello
+        String fromCart = request.getParameter("fromCart");
+
+        if (fromCart != null && fromCart.equals("true")) {
+            String total = request.getParameter("total");
+
+            if (total == null || total.isEmpty()) {
+                throw new IllegalArgumentException("Il totale non può essere nullo o vuoto");
+            }
+
+            request.setAttribute("total", total);
+            request.getRequestDispatcher("/common/selectAddress.jsp").forward(request, response);
+            return ;
+        }
         
         response.sendRedirect(request.getContextPath() + "/common/RetrieveAccountAddresses");       
     }

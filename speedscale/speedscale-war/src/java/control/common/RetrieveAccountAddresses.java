@@ -23,7 +23,7 @@ public class RetrieveAccountAddresses extends HttpServlet {
 
         if (utente == null) {
             // Se l'utente non è autenticato, reindirizza alla pagina di login
-            redirectToLogin(response, request);
+            response.sendRedirect(request.getContextPath() + "/common/login.jsp");
             return ;
         }
         
@@ -57,10 +57,5 @@ public class RetrieveAccountAddresses extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
-    }
-
-    // Metodo per reindirizzare alla pagina di login
-    private void redirectToLogin(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        response.sendRedirect(request.getContextPath() + "/common/login.jsp");
     }
 }
