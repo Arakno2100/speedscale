@@ -1,16 +1,16 @@
 package control.common;
 
-import model.bean.Indirizzo;
 import model.bean.Utente;
+import model.bean.MetodoPagamento;
 
-import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.bean.MetodoPagamento;
+import java.io.IOException;
+import java.util.List;
+
 
 @WebServlet("/common/RetrieveAccountMetodiPagamento")
 public class RetrieveAccountMetodiPagamento extends HttpServlet {
