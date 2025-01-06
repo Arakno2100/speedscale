@@ -27,29 +27,18 @@ public class CatalogServlet extends HttpServlet {
         
         List<Prodotto> prodotti = catalogo.getProdotti();
         
-        int maxPrice = extractMaxPrice(request);
+        // Ottieni il parametro di ricerca (se presente)
+        String searchTerm = request.getParameter("searchQuery");
         
-        prodotti = prodotti.stream()
-                .filter(product -> product.getPrezzo() <= maxPrice)
-                .collect(Collectors.toList());
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            // Filtro per il termine di ricerca (in questo caso sul nome del prodotto)
+            prodotti = prodotti.stream()
+                    .filter(product -> product.getNome().toLowerCase().contains(searchTerm.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
         
         request.setAttribute("products", prodotti);
         
         request.getRequestDispatcher("/common/catalog.jsp").forward(request, response);
-    }
-
-    private int extractMaxPrice(HttpServletRequest request) {
-        int maxPrice;
-
-        try
-        {
-            maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
-        }
-        catch (NumberFormatException e)
-        {
-            maxPrice = Integer.MAX_VALUE;
-        }
-
-        return maxPrice > 0 ? maxPrice : Integer.MAX_VALUE;
     }
 }

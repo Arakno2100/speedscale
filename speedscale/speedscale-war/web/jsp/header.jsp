@@ -20,22 +20,20 @@
         <img src="images/logo.png" alt="Logo">
     </a>
 
-    <a href="${pageContext.request.contextPath}/common/IndexServlet">Comic Vault</a>
+    <a href="${pageContext.request.contextPath}/common/IndexServlet">SpeedScale</a>
 
     <div class="search-container">
-        <form action="">
+        <form action="${pageContext.request.contextPath}/common/CatalogServlet" method="GET">
             <label>
-                <input id="search" type="text" placeholder="Cerca.." name="name" oninput="sendSliderValue('${pageContext.request.contextPath}')">
+                <input id="search" type="text" placeholder="Cerca.." name="searchQuery" onsubmit="this.form.submit()">
             </label>
-            <span class="fa fa-search" style="color: white; margin-right: 10px" id ="num"></span>
+            <span class="fa fa-search" style="color: white; margin-right: 10px" id="num"></span>
         </form>
     </div>
 
     <div class="links">
-
-        <!-- Scelta pulsante a seconda se loggato (e tipo di permessi)-->
         <c:choose>
-            <c:when test="${isAdmin == 1}"> <!-- Accesso effettuato come admin -->
+            <c:when test="${isAdmin == 1 || isResponsabileMagazzino == 1 || isGestoreOrdini == 1}">
                 <a href="${pageContext.request.contextPath}/admin/homepage.jsp">Profilo</a>
             </c:when>
             <c:when test="${isAdmin == 0}"> <!-- Accesso effettuato come user -->
