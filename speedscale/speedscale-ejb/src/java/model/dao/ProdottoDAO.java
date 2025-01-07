@@ -29,62 +29,8 @@ public class ProdottoDAO {
     }
     
     public List<Prodotto> findAll() {
-        return entityManager.createQuery("SELECT p FROM Prodotto p", Prodotto.class).getResultList();
-    }
-    /*
-    // Trova i prodotti in base alla marca e alla scala
-    public List<Prodotto> findByMarcaAndScala(String marca, String scala) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            return entityManager.createQuery(
-                    "SELECT p FROM Prodotto p WHERE p.marca = :marca AND p.scala = :scala", Prodotto.class)
-                    .setParameter("marca", marca)
-                    .setParameter("scala", scala)
-                    .getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    // Trova i prodotti in base alla marca
-    public List<Prodotto> findByMarca(String marca) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            return entityManager.createQuery(
-                    "SELECT p FROM Prodotto p WHERE p.marca = :marca", Prodotto.class)
-                    .setParameter("marca", marca)
-                    .getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    // Trova i prodotti in base alla scala
-    public List<Prodotto> findByScala(String scala) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            return entityManager.createQuery(
-                    "SELECT p FROM Prodotto p WHERE p.scala = :scala", Prodotto.class)
-                    .setParameter("scala", scala)
-                    .getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    // Trova i prodotti più recenti (per esempio)
-    public List<Prodotto> doRetrieveLatest(int limit) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            return entityManager.createQuery(
-                    "SELECT p FROM Prodotto p ORDER BY p.id DESC", Prodotto.class)
-                    .setMaxResults(limit)
-                    .getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-    */
+        return entityManager.createQuery("SELECT p FROM Prodotto p WHERE p.quantitàDisponibile >= 0", Prodotto.class).getResultList();
+    } 
     
     // Rimuove un indirizzo
     @Transactional

@@ -96,6 +96,22 @@
         <servlet-name>UpdateOrderStatusServlet</servlet-name>
         <servlet-class>control.admin.UpdateOrderStatusServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RetrieveProductsServlet</servlet-name>
+        <servlet-class>control.admin.RetrieveProductsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProductServlet</servlet-name>
+        <servlet-class>control.admin.UpdateProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProductServlet</servlet-name>
+        <servlet-class>control.admin.AddProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteProductServlet</servlet-name>
+        <servlet-class>control.admin.DeleteProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoadOrCreateCartServlet</servlet-name>
         <url-pattern>/LoadOrCreateCartServlet</url-pattern>
@@ -190,6 +206,22 @@
     <servlet-mapping>
         <servlet-name>UpdateOrderStatusServlet</servlet-name>
         <url-pattern>/UpdateOrderStatusServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RetrieveProductsServlet</servlet-name>
+        <url-pattern>/RetrieveProductsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProductServlet</servlet-name>
+        <url-pattern>/UpdateProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProductServlet</servlet-name>
+        <url-pattern>/AddProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProductServlet</servlet-name>
+        <url-pattern>/DeleteProductServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

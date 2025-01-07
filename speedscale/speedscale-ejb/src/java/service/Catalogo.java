@@ -66,7 +66,7 @@ public class Catalogo {
      * @return La lista dei prodotti.
      */
     public List<Prodotto> getProdotti() {
-        return prodotti;
+        return prodottoDAO.findAll();
     }
     
     public List<Prodotto> getLatestProducts(int limit) {

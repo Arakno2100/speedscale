@@ -18,8 +18,8 @@
             <c:if test="${isAdmin == 1 || isGestoreOrdini == 1}">
                 <a href="<%=request.getContextPath()%>/admin/ManageOrdersServlet" class="aAdminPage">Gestisci Ordini</a>
             </c:if>
-            <c:if test="${isAdmin == 1 || isGestoreOrdini == 1}">
-                <a href="<%=request.getContextPath()%>/admin/ManageOrdersServlet" class="aAdminPage">Gestisci Ordini</a>
+            <c:if test="${isAdmin == 1 || isResponsabileMagazzino == 1}">
+                <a href="<%=request.getContextPath()%>/admin/RetrieveProductsServlet" class="aAdminPage">Gestisci Prodotti</a>
             </c:if>
         </div>
         

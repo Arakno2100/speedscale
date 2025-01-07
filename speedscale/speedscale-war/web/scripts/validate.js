@@ -148,13 +148,13 @@ function  validatePrice(id , spanName){
 
 
     const input = document.getElementById(id).value;
-    if(Number.parseFloat(input) <=  0)
+    if(Number.parseFloat(input) <  0)
         document.getElementById(spanName).innerHTML = "Inserisci un numero maggiore di 0"
     else
         document.getElementById(spanName).innerHTML = ""
 
 
-    return Number.parseFloat(input) <=  0;
+    return Number.parseFloat(input) <  0;
 
 }
 function validateQuantPrice(id1 , id2 , btn )
@@ -163,7 +163,7 @@ function validateQuantPrice(id1 , id2 , btn )
     const input1 = document.getElementById(id1).value;
     const input2 = document.getElementById(id2).value;
     const butt = document.getElementById(btn)
-    let val = Number.parseFloat(input1) <=  0 || Number.parseFloat(input2) <=  0;
+    let val = Number.parseFloat(input1) <=  0 || Number.parseFloat(input2) <  0;
     butt.disabled = val;
 
 
