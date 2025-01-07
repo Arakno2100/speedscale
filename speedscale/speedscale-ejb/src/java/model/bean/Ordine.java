@@ -28,7 +28,7 @@ public class Ordine {
     @JoinColumn(name = "metodo_id")
     private MetodoPagamento metodoPagamento;
 
-    @OneToMany(mappedBy = "ordine", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "ordine", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<OrdineProdotto> prodotti; // Associazioni con quantità e prezzoUnitario
 
     public Ordine() {}

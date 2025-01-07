@@ -187,12 +187,8 @@ public class CarrelloService {
         utenteDAO.save(carrello.getUtente());
 
         // Svuotare il carrello (opzionale)
-        /*
-        for (CarrelloProdotto voceCarrello : carrello.getProdotti()) {
-            removeProdottoCarrello(carrello, voceCarrello.getProdotto());
-        }
-        */
-        carrelloDAO.save(carrello);  // Salva il carrello svuotato
+        carrello.getProdotti().clear();
+        carrelloDAO.save(carrello);
     }
 
 

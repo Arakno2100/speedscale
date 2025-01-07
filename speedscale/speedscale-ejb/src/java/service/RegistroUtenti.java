@@ -7,8 +7,6 @@ import model.dao.UtenteDAO;
 import model.bean.Carrello;
 import model.dao.CarrelloDAO;
 import model.bean.Ruolo;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -19,9 +17,6 @@ import model.bean.CarrelloProdotto;
 
 @Singleton
 public class RegistroUtenti {
-
-    @PersistenceContext(unitName = "SpeedScalePU")
-    private EntityManager entityManager;
     
     @EJB
     private UtenteDAO utenteDAO;
@@ -174,10 +169,13 @@ public class RegistroUtenti {
             
             System.out.println("Carrello query:\t" + carrello.toString());
         } else if (utente.getRuoli().contains(Ruolo.RESPONSABILE_MAGAZZINO)) {
+            session.setAttribute("isCliente", 0);
             session.setAttribute("isResponsabileMagazzino", 1);
         } else if (utente.getRuoli().contains(Ruolo.GESTORE_ORDINI)) {
+            session.setAttribute("isCliente", 0);
             session.setAttribute("isGestoreOrdini", 1);
         } else if (utente.getRuoli().contains(Ruolo.AMMINISTRATORE)) {
+            session.setAttribute("isCliente", 0);
             session.setAttribute("isAdmin", 1);
         }
     

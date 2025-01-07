@@ -43,6 +43,8 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("latestProducts", latestProducts);
         request.setAttribute("bestSellingProducts", bestSellingProducts);
         request.setAttribute("upcomingProducts", upcomingProducts);
+        
+        request.getSession().setAttribute("isCliente", 1);
 
         // Inoltra la richiesta alla JSP per la visualizzazione dei dati
         request.getRequestDispatcher("/index.jsp").forward(request, response);
