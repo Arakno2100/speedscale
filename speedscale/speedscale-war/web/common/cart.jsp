@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,8 +39,8 @@
             <tbody>
             <c:forEach items="${prodottiCarrello}" var="prodottoCarrello" varStatus="status">
                 <tr>
-                    <td>${items[status.index].nome}</td> <!-- Nome del prodotto -->
-                    <td>${items[status.index].prezzo}&euro;</td> <!-- Prezzo del prodotto -->
+                    <td>${items[status.index].nome}</td>
+                    <td><fmt:formatNumber value="${items[status.index].prezzo}" type="number" maxFractionDigits="2" minFractionDigits="2" />&euro;</td>
                     <td>
                         <form action="${pageContext.request.contextPath}/common/AddToCartServlet" method="post">
                             <input type="hidden" name="action" value="update">
@@ -67,7 +69,7 @@
     </c:if>
 </div>
 
-<h3>Totale: ${total}&euro;</h3>
+<h3>Totale: <fmt:formatNumber value="${total}" type="number" maxFractionDigits="2" minFractionDigits="2" />&euro;</h3>
 
 <form action="${pageContext.request.contextPath}/common/RetrieveAccountAddresses" method="post">
     <input type="hidden" name="fromCart" value="true">

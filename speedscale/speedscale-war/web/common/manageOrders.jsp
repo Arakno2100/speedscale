@@ -33,7 +33,7 @@
                             <td>${ordine.id}</td>
                             <td>${ordine.stato}</td>
                             <td><fmt:formatDate value="${ordine.data}" pattern="dd-MM-yyyy"/></td>
-                            <td>${ordine.totale}€</td>
+                            <td><fmt:formatNumber value="${ordine.totale}" type="number" maxFractionDigits="2" minFractionDigits="2" />€</td>
                             <td><button class="btn" onclick="mostraDettagli(${ordine.id});">Dettaglio</button></td>
                         </tr>
 
@@ -44,7 +44,7 @@
                                 <p><strong>Email Utente:</strong> ${ordine.utente.email}</p>
                                 <p><strong>Indirizzo:</strong> ${ordine.indirizzo.via}, ${ordine.indirizzo.citta} (${ordine.indirizzo.provincia}, ${ordine.indirizzo.nazione})</p>
                                 <p><strong>Data: </strong><fmt:formatDate value="${ordine.data}" pattern="dd-MM-yyyy" /></p>
-                                <p><strong>Totale:</strong> ${ordine.getTotale()}€</p>
+                                <p><strong>Totale:</strong> <fmt:formatNumber value="${ordine.totale}" type="number" maxFractionDigits="2" minFractionDigits="2" />€</p>
 
                                 <table border="1">
                                     <thead>
@@ -61,7 +61,7 @@
                                             <tr>
                                                 <td>${voceOrdine.prodotto.id}</td>
                                                 <td>${voceOrdine.prodotto.nome}</td>
-                                                <td>${voceOrdine.prezzoUnitario}€</td>
+                                                <td><fmt:formatNumber value="${voceOrdine.prezzoUnitario}" type="number" maxFractionDigits="2" minFractionDigits="2" />€</td>
                                                 <td>${voceOrdine.quantità}</td>
                                             </tr>
                                         </c:forEach>
