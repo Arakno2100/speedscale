@@ -3,6 +3,7 @@ package control.common;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import model.bean.Utente;
 import model.dao.MetodoPagamentoDAO;
 import service.GestioneProfilo;
 
+@WebServlet("/common/DeleteMetodoPagamento")
 public class DeleteMetodoPagamento extends HttpServlet {
     
     @EJB
@@ -40,7 +42,7 @@ public class DeleteMetodoPagamento extends HttpServlet {
         gestioneProfilo.removeMetodoPagamento(utente, metodo);
                 
         //Redirect
-        response.sendRedirect(getServletContext().getContextPath() + "/common/RetrieveAccountAddresses");
+        response.sendRedirect(getServletContext().getContextPath() + "/common/RetrieveAccountMetodiPagamento");
         
     }
 

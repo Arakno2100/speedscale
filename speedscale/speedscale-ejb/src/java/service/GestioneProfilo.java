@@ -194,16 +194,32 @@ public class GestioneProfilo {
             throw new IllegalArgumentException("Utente o metodo di pagamento non valido");
         }
         
-        // Rimuovi il metodo di pagamento
-        List<MetodoPagamento> metodi = utente.getMetodiPagamento();
-        if (!metodi.contains(metodoPagamento)) {
-            throw new IllegalArgumentException("Metodo di pagamento non trovato");
+        // Ricarica l'utente dal database per avere l'elenco più aggiornato
+        Utente utenteAggiornato = utenteDAO.findById(utente.getId());
+        List<MetodoPagamento> metodi = utenteAggiornato.getMetodiPagamento();
+
+        int index = 0;
+        
+        for (MetodoPagamento mtd : metodi) {
+            if (mtd.getId() == metodoPagamento.getId())
+                index = metodi.indexOf(mtd);
         }
         
-        metodi.remove(metodoPagamento);
+        System.out.println("index:\t" + index);
         
+        metodi.remove(index);
+        
+        metodoPagamentoDAO.delete(metodoPagamento);
+        utenteDAO.save(utenteAggiornato);
+        
+        // Ricarica l'utente e gli indirizzi aggiornati
+        Utente utenteRicaricato = utenteDAO.findById(utente.getId());
+        List<MetodoPagamento> metodiAggiornati = utenteRicaricato.getMetodiPagamento();
+        utente.setMetodiPagamento(metodiAggiornati);
+
         utenteDAO.save(utente);
-        System.out.println("Utente (rimosso metodo pagameto):\t" + utente.toString());
+
+        System.out.println("Utente (rimosso indirizzo):\t" + utenteAggiornato.toString());
     }
 
     // Visualizza lo storico degli ordini di un utente
