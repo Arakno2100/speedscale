@@ -27,8 +27,8 @@
             <label>
                 <input id="search" type="text" placeholder="Cerca.." name="searchQuery" onsubmit="this.form.submit()">
             </label>
-            <span class="fa fa-search" style="color: white; margin-right: 10px" id="num"></span>
         </form>
+        <span class="fa fa-search" style="color: white; margin-right: 10px" id="num"></span>
     </div>
 
     <div class="links">
