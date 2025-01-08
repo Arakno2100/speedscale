@@ -189,6 +189,12 @@ public class CarrelloService {
         // Svuotare il carrello (opzionale)
         carrello.getProdotti().clear();
         carrelloDAO.save(carrello);
+        
+        //Aggiornare le quantità dei prodotti nel magazzino
+        for (OrdineProdotto voce : ordine.getProdotti()) {
+            voce.getProdotto().setQuantitàDisponibile(voce.getProdotto().getQuantitàDisponibile() - voce.getQuantità());
+            prodottoDAO.save(voce.getProdotto());
+        }
     }
 
 
